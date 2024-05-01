@@ -1,46 +1,37 @@
-
-        import java.util.HashMap;
-        import java.util.Map;
-        import java.util.Scanner;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter a mathematical operation (Roman or Integer):");
-        String input = scanner.nextLine();
-        scanner.close();
 
-        Map<String, Integer> romanMap = createRomanMap();
-        RomanCalculator romanCalculator = new RomanCalculator(romanMap);
+        System.out.print("Enter the mathematical operation (Roman numerals and operator): ");
+        String input = scanner.nextLine().toUpperCase();
+        String[] parts = input.split("\\s+");
+
+        if (parts.length != 3) {
+            System.out.println("Invalid input format. Please enter a valid mathematical operation.");
+            return;
+        }
+
+        String num1 = parts[0];
+        String operator = parts[1];
+        String num2 = parts[2];
+
+        RomanCalculator romanCalculator = new RomanCalculator();
         IntegerCalculator integerCalculator = new IntegerCalculator();
 
         try {
-            String[] parts = input.split("\\s+");
-            if (parts[0].matches("\\d+") && parts[2].matches("\\d+")) {
-                int result = integerCalculator.calculate(Integer.parseInt(parts[0]), parts[1], Integer.parseInt(parts[2]));
-                System.out.println("Result: " + result + " (Integer)");
-            } else {
-                int result = romanCalculator.calculate(parts[0], parts[1], parts[2]);
-                System.out.println("Result: " + result + " (Roman)");
-            }
+            int resultRoman = romanCalculator.calculate(num1, operator, num2);
+            System.out.println("Result in Roman numerals: " + romanCalculator.intToRoman(resultRoman));
         } catch (IllegalArgumentException e) {
-            System.out.println("Error: " + e.getMessage());
+
         }
-    }
 
-    private static Map<String, Integer> createRomanMap() {
-        Map<String, Integer> romanMap = new HashMap<>();
-        romanMap.put("I", 1);
-        romanMap.put("II", 2);
-        romanMap.put("III", 3);
-        romanMap.put("IV", 4);
-        romanMap.put("V", 5);
-        romanMap.put("VI", 6);
-        romanMap.put("VII", 7);
-        romanMap.put("VIII", 8);
-        romanMap.put("IX", 9);
-        romanMap.put("X", 10);
+        try {
+            int resultInteger = integerCalculator.calculate(num1, operator, num2);
+            System.out.println("Result in Integer: " + resultInteger);
+        } catch (IllegalArgumentException e) {
 
-        return romanMap;
+        }
     }
 }

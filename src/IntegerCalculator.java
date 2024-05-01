@@ -1,19 +1,29 @@
 public class IntegerCalculator {
-    public int calculate(int num1, String operator, int num2) {
+    public int calculate(String num1, String operator, String num2) {
+        int intNum1 = Integer.parseInt(num1);
+        int intNum2 = Integer.parseInt(num2);
+
+        int result;
         switch (operator) {
             case "+":
-                return num1 + num2;
+                result = intNum1 + intNum2;
+                break;
             case "-":
-                return num1 - num2;
+                result = intNum1 - intNum2;
+                break;
             case "*":
-                return num1 * num2;
+                result = intNum1 * intNum2;
+                break;
             case "/":
-                if (num2 == 0) {
+                if (intNum2 == 0) {
                     throw new IllegalArgumentException("Division by zero is not allowed.");
                 }
-                return num1 / num2;
+                result = intNum1 / intNum2;
+                break;
             default:
                 throw new IllegalArgumentException("Invalid operator. Please use +, -, *, or /.");
         }
+
+        return result;
     }
 }
