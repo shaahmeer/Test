@@ -3,6 +3,7 @@ public class IntegerCalculator {
         int intNum1 = Integer.parseInt(num1);
         int intNum2 = Integer.parseInt(num2);
 
+
         int result;
         switch (operator) {
             case "+":
