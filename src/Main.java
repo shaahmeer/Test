@@ -23,19 +23,23 @@ public class Main {
         IntegerCalculator integerCalculator = new IntegerCalculator();
 
         try {
-            if (isValidRomanNumeral(num1) && isValidRomanNumeral(num2)) {
-                int resultRoman = romanCalculator.calculate(num1, operator, num2);
-                System.out.println("Result in Roman numerals: " + romanCalculator.intToRoman(resultRoman));
-            } else if (isValidInteger(num1) && isValidInteger(num2)) {
-                int resultInteger = integerCalculator.calculate(num1, operator, num2);
-                System.out.println("Result in Integer: " + resultInteger);
-            } else {
-                throw new IllegalArgumentException("Invalid input. Please enter valid Roman numerals or integers.");
+                        if (isValidRomanNumeral(num1) && isValidRomanNumeral(num2)) {
+                                int resultRoman = romanCalculator.calculate(num1, operator, num2);
+                                if (resultRoman == 0) {
+                                        System.out.println("Result in Roman numerals: Nulla");
+                                    } else {
+                                        System.out.println("Result in Roman numerals: " + romanCalculator.intToRoman(resultRoman));
+                                    }
+                            } else if (isValidInteger(num1) && isValidInteger(num2)) {
+                                int resultInteger = integerCalculator.calculate(num1, operator, num2);
+                                System.out.println("Result in Integer: " + resultInteger);
+                            } else {
+                                throw new IllegalArgumentException("Invalid input. Please enter valid Roman numerals or integers.");
+                            }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
             }
-        } catch (IllegalArgumentException e) {
-            System.out.println(e);
-        }
-    }
 
     private static boolean isValidRomanNumeral(String s) {
         String[] romanNumerals = {"I", "V", "X", "L", "C", "D", "M"};
