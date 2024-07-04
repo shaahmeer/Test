@@ -10,7 +10,7 @@ public class Main {
         String input = scanner.nextLine().toUpperCase();
         String[] parts = input.split("\\s+");
 
-        if (parts.length != 3) {
+        if (parts.length!= 3) {
             System.out.println("Invalid input format. Please enter a valid mathematical operation.");
             return;
         }
@@ -23,23 +23,37 @@ public class Main {
         IntegerCalculator integerCalculator = new IntegerCalculator();
 
         try {
-            int resultRoman = romanCalculator.calculate(num1, operator, num2);
-            if (resultRoman < 1 || resultRoman > 10) {
-                throw new IllegalArgumentException("Result must be between 1 and 10");
+            if (isValidRomanNumeral(num1) && isValidRomanNumeral(num2)) {
+                int resultRoman = romanCalculator.calculate(num1, operator, num2);
+                System.out.println("Result in Roman numerals: " + romanCalculator.intToRoman(resultRoman));
+            } else if (isValidInteger(num1) && isValidInteger(num2)) {
+                int resultInteger = integerCalculator.calculate(num1, operator, num2);
+                System.out.println("Result in Integer: " + resultInteger);
+            } else {
+                throw new IllegalArgumentException("Invalid input. Please enter valid Roman numerals or integers.");
             }
-            System.out.println("Result in Roman numerals: " + romanCalculator.intToRoman(resultRoman));
-        } catch (IllegalArgumentException e) {
-            System.out.println(e);
-        }
-
-        try {
-            int resultInteger = integerCalculator.calculate(num1, operator, num2);
-            System.out.println("Result in Integer: " + resultInteger);
         } catch (IllegalArgumentException e) {
             System.out.println(e);
         }
     }
+
+    private static boolean isValidRomanNumeral(String s) {
+        String[] romanNumerals = {"I", "V", "X", "L", "C", "D", "M"};
+        for (String numeral : romanNumerals) {
+            if (s.contains(numeral)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean isValidInteger(String s) {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }
-
-
 
