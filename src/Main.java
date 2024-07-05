@@ -3,6 +3,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
+    private static final String[] VALID_ROMAN_NUMERALS = {"I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M"};
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -24,9 +26,7 @@ public class Main {
         try {
             if (isValidRomanNumeral(num1) && isValidRomanNumeral(num2)) {
                 int resultRoman = romanCalculator.calculate(num1, operator, num2);
-                if (resultRoman > 10) {
-                    throw new ArithmeticException("Result cannot be greater than 10 in Roman numerals.");
-                }
+
                 if (resultRoman < 1) {
                     throw new ArithmeticException("Result cannot be less than 1 in Roman numerals.");
                 }
@@ -49,13 +49,27 @@ public class Main {
     }
 
     private static boolean isValidRomanNumeral(String s) {
-        String[] romanNumerals = {"I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M"};
-        for (String numeral : romanNumerals) {
-            if (s.equals(numeral)) {
-                return true;
+        s = s.toUpperCase();
+        int i = 0;
+        while (i < s.length()) {
+            boolean found = false;
+            for (String numeral : VALID_ROMAN_NUMERALS) {
+                if (s.startsWith(numeral, i)) {
+                    i += numeral.length();
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                char c = s.charAt(i);
+                if (RomanCalculator.ROMAN_VALUES.containsKey(c)) {
+                    i++;
+                } else {
+                    return false;
+                }
             }
         }
-        return false;
+        return true;
     }
 
     private static boolean isValidInteger(String s) {

@@ -6,23 +6,16 @@ public class IntegerCalculator {
 
         int result;
         switch (operator) {
-            case "+":
-                result = intNum1 + intNum2;
-                break;
-            case "-":
-                result = intNum1 - intNum2;
-                break;
-            case "*":
-                result = intNum1 * intNum2;
-                break;
-            case "/":
+            case "+" -> result = intNum1 + intNum2;
+            case "-" -> result = intNum1 - intNum2;
+            case "*" -> result = intNum1 * intNum2;
+            case "/" -> {
                 if (intNum2 == 0) {
                     throw new IllegalArgumentException("Division by zero is not allowed.");
                 }
                 result = intNum1 / intNum2;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid operator. Please use +, -, *, or /.");
+            }
+            default -> throw new IllegalArgumentException("Invalid operator. Please use +, -, *, or /.");
         }
 
         return result;

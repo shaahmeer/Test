@@ -4,7 +4,8 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class RomanCalculator {
-    private static final Map<Character, Integer> ROMAN_VALUES = new HashMap<>();
+
+    public static final HashMap<Character, Integer> ROMAN_VALUES =  new HashMap<>();;
 
     static {
         ROMAN_VALUES.put('I', 1);
