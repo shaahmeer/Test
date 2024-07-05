@@ -10,9 +10,8 @@ public class Main {
         String input = scanner.nextLine().toUpperCase();
         String[] parts = input.split("\\s+");
 
-        if (parts.length!= 3) {
-            System.out.println("Invalid input format. Please enter a valid mathematical operation.");
-            return;
+        if (parts.length != 3) {
+            throw new IllegalArgumentException("Invalid input format. Please enter a valid mathematical operation.");
         }
 
         String num1 = parts[0];
@@ -23,28 +22,36 @@ public class Main {
         IntegerCalculator integerCalculator = new IntegerCalculator();
 
         try {
-                        if (isValidRomanNumeral(num1) && isValidRomanNumeral(num2)) {
-                                int resultRoman = romanCalculator.calculate(num1, operator, num2);
-                                if (resultRoman == 0) {
-                                        System.out.println("Result in Roman numerals: Nulla");
-                                    } else {
-                                        System.out.println("Result in Roman numerals: " + romanCalculator.intToRoman(resultRoman));
-                                    }
-                            } else if (isValidInteger(num1) && isValidInteger(num2)) {
-                                int resultInteger = integerCalculator.calculate(num1, operator, num2);
-                                System.out.println("Result in Integer: " + resultInteger);
-                            } else {
-                                throw new IllegalArgumentException("Invalid input. Please enter valid Roman numerals or integers.");
-                            }
-                    } catch (IllegalArgumentException e) {
-                        System.out.println(e.getMessage());
-                    }
+            if (isValidRomanNumeral(num1) && isValidRomanNumeral(num2)) {
+                int resultRoman = romanCalculator.calculate(num1, operator, num2);
+                if (resultRoman > 10) {
+                    throw new ArithmeticException("Result cannot be greater than 10 in Roman numerals.");
+                }
+                if (resultRoman < 1) {
+                    throw new ArithmeticException("Result cannot be less than 1 in Roman numerals.");
+                }
+                if (resultRoman == 0) {
+                    System.out.println("Result in Roman numerals: Nulla");
+                } else {
+                    System.out.println("Result in Roman numerals: " + romanCalculator.intToRoman(resultRoman));
+                }
+            } else if (isValidInteger(num1) && isValidInteger(num2)) {
+                int resultInteger = integerCalculator.calculate(num1, operator, num2);
+                System.out.println("Result in Integer: " + resultInteger);
+            } else {
+                throw new IllegalArgumentException("Invalid input. Please enter valid Roman numerals or integers.");
             }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        } catch (ArithmeticException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     private static boolean isValidRomanNumeral(String s) {
-        String[] romanNumerals = {"I", "V", "X", "L", "C", "D", "M"};
+        String[] romanNumerals = {"I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M"};
         for (String numeral : romanNumerals) {
-            if (s.contains(numeral)) {
+            if (s.equals(numeral)) {
                 return true;
             }
         }
@@ -53,11 +60,10 @@ public class Main {
 
     private static boolean isValidInteger(String s) {
         try {
-            Integer.parseInt(s);
-            return true;
+            int num = Integer.parseInt(s);
+            return num >= 1 && num <= 10;
         } catch (NumberFormatException e) {
             return false;
         }
     }
 }
-
